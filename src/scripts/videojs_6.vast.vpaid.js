@@ -5,4 +5,5 @@ require('./plugin/components/black-poster_5');
 
 var videoJsVAST = require('./plugin/videojs.vast.vpaid');
 
-videojs.registerPlugin('vastClient', videoJsVAST);
+var registerPlugin = videojs.registerPlugin || videojs.plugin;
+registerPlugin.registerPlugin('vastClient', videoJsVAST);
