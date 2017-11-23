@@ -3,13 +3,11 @@
 [//]: # "[![Code Climate](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/badges/gpa.svg)](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid)"
 [//]: # "[![Test Coverage](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/badges/coverage.svg)](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/coverage)"
 
-UNDER DEVELOPMENT - Forked version with some merged pull requests (videojs v6 support, postroll, midroll, etc)
+UNDER DEVELOPMENT - Forked version with some merged pull requests (videojs v6 support, postroll, midroll, etc). Current goals: 1) clean up versioning, 2) make it work, 3) add pulled features to documentation, 4) test it
 
 This plugin allows videojs to monetise its videos. To do so, it implements the [VAST](http://www.iab.net/media/file/VASTv3.0.pdf) and [VPAID](http://www.iab.net/media/file/VPAID_2.0_Final_04-10-2012.pdf) specifications from IAB.
 
-Currently we support VAST and VPAID [Flash](https://github.com/MailOnline/VPAIDFLASHClient) and [HTML5](https://github.com/MailOnline/VPAIDHTML5Client) preroll ads, we will add more VAST ad types as we need them.
-
-#### [DEMO HERE!!!](http://mailonline.github.io/videojs-vast-vpaid)
+Supports VAST and VPAID [HTML5](https://github.com/MailOnline/VPAIDHTML5Client) preroll/midroll/postroll ads.
 
 ---
 
@@ -20,7 +18,7 @@ To integrate the plugin with videoJs you need to:
 
 **2- If you don't have videoJs, add it's scripts and stylesheet to your page**
 ```html
-<!-- Video.js 5 -->
+<!-- Video.js -->
 <link href="http://vjs.zencdn.net/5.4.6/video-js.css" rel="stylesheet">
 <script src="http://vjs.zencdn.net/5.4.6/video.js"></script>
 ```
@@ -32,7 +30,7 @@ To integrate the plugin with videoJs you need to:
 ```
 and the videojs version specific plugin
 ```html
-<!-- Video.js 5 -->
+<!-- Video.js -->
 <script src="/path/to/videojs_6.vast.vpaid.min.js"></script>
 ```
 
