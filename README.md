@@ -1,9 +1,9 @@
 # videojs-vast-vpaid plugin
-[![Build Status](https://travis-ci.org/MailOnline/videojs-vast-vpaid.svg?branch=master)](https://travis-ci.org/MailOnline/videojs-vast-vpaid)
-[![Code Climate](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/badges/gpa.svg)](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid)
-[![Test Coverage](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/badges/coverage.svg)](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/coverage)
+[//]: # [![Build Status](https://travis-ci.org/MailOnline/videojs-vast-vpaid.svg?branch=master)](https://travis-ci.org/MailOnline/videojs-vast-vpaid)
+[//]: # [![Code Climate](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/badges/gpa.svg)](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid)
+[//]: # [![Test Coverage](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/badges/coverage.svg)](https://codeclimate.com/github/MailOnline/videojs-vast-vpaid/coverage)
 
-Forked version with some merged pull requests (videojs v6 support, postroll, midroll, etc)
+UNDER DEVELOPLMENT - Forked version with some merged pull requests (videojs v6 support, postroll, midroll, etc)
 
 This plugin allows videojs to monetise its videos. To do so, it implements the [VAST](http://www.iab.net/media/file/VASTv3.0.pdf) and [VPAID](http://www.iab.net/media/file/VPAID_2.0_Final_04-10-2012.pdf) specifications from IAB.
 
