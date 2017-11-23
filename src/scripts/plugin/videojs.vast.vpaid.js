@@ -405,11 +405,21 @@ module.exports = function VASTPlugin(options) {
     async.waterfall([
       getVastResponse,
       playAd
-    ], callback);
-  }
+    ], function(error, response) {
+        if (utilities.isArray(settings.adTagUrl) && utilities.isDefined(settings.adTagUrl[0])) {
+          playRollAd(callback);
+        } else {
+          callback(error, response);
+        }
+     });
+   }
 
   function getVastResponse(callback) {
-    vast.getVASTResponse(settings.adTagUrl ? settings.adTagUrl() : settings.adTagXML, callback);
+    if (utilities.isArray(settings.adTagUrl) && utilities.isDefined(settings.adTagUrl[0])) {
+      vast.getVASTResponse(settings.adTagUrl ? settings.adTagUrl.shift() : settings.adTagXML, callback);
+    } else {
+      vast.getVASTResponse(settings.adTagUrl ? settings.adTagUrl() : settings.adTagXML, callback);
+    }
   }
 
   function playAd(vastResponse, callback) {
@@ -418,6 +428,12 @@ module.exports = function VASTPlugin(options) {
 
     if (adsCanceled) {
       return;
+    }
+
+    // If the adTagUrl was a list of providers and we come across this function
+    // then an ad is playing successfully so clear all the remaining ads we have.
+    if (utilities.isArray(settings.adTagUrl) && utilities.isDefined(settings.adTagUrl[0])) {
+      settings.adTagUrl.splice(0, settings.adTagUrl.length);
     }
 
     var adIntegrator = isVPAID(vastResponse) ? new VPAIDIntegrator(player, settings) : new VASTIntegrator(player);
