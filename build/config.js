@@ -3,15 +3,10 @@
 var path = require('path');
 var parseArgs = require('minimist');
 
-var knownOptions = {
+var options = parseArgs(process.argv.slice(2), {
   string: 'env',
   default: {env: process.env.NODE_ENV || 'development'}
-};
-var options = parseArgs(process.argv.slice(2), knownOptions);
-
-var videoJsVersionsMap = {
-  '6': 'bower_components/videojs_6/dist/'
-};
+});
 
 var demoAds = [
   {
@@ -50,13 +45,12 @@ var demoAds = [
 
 module.exports = {
 
-  versions: Object.keys(videoJsVersionsMap),
-  versionsMap: videoJsVersionsMap,
+  videojsSrc = 'node_modules/video.js/dist/video.js';
 
   options: options,
   env: options.env,
   git: {
-    remoteUrl: process.env.GH_TOKEN ? 'https://'+process.env.GH_TOKEN+'@github.com/MailOnline/videojs-vast-vpaid' : 'origin'
+    remoteUrl: process.env.GH_TOKEN ? 'https://'+process.env.GH_TOKEN+'@github.com/mysuf/videojs-vast-vpaid' : 'origin'
   },
 
   DIST: path.normalize('__dirname/../bin'),
@@ -66,9 +60,8 @@ module.exports = {
 
   ],
 
-  testFiles: function testFiles (videojsVersion){
+  testFiles: function testFiles (){
     var dependencies = [];
-    videojsVersion = videojsVersion || this.versions[0];
 
     this.vendor.forEach(function(bundle){
       dependencies.push({
@@ -77,7 +70,7 @@ module.exports = {
       });
     });
     //We add videojs
-    dependencies.push(videoJsVersionsMap[videojsVersion] + 'video.js');
+    dependencies.push(this.videojsSrc);
     return dependencies.concat([
       'test/test-utils.css',
       'test/**/*.spec.js'

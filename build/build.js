@@ -87,37 +87,42 @@ function buildProdJs() {
 }
 
 
-gulp.task('build-scripts', function() {
+gulp.task('build-plugin-script', function() {
+  var fileName = 'videojs.vast.vpaid.loader.js';
+  var entryFile = path.join('src/scripts', fileName);
+  var destPath  = path.join(devPath, 'scripts');
 
-  var buildProcesses = config.versions.map(function(version) {
-
-    var fileName  = 'videojs_' + version + '.vast.vpaid.js';
-    var entryFile = path.join('src/scripts', fileName);
-    var destPath  = path.join(devPath, 'scripts');
-
-    return browserify({
-        entries: entryFile,
-        debug: true,
-        paths: 'bower_components',
-        cache: {},
-        packageCache: {}
-      })
-      .transform(babelify, {
-        presets: ['es2015'],
-        sourceMaps: true,
-        only: /VPAIDFLASHClient/
-      })
-      .bundle()
-      .pipe(source(fileName))
-      .pipe(gulp.dest(destPath))
-      .pipe(gulpif(isProduction, buildProdJs()));
-
-  });
-
-  return mergeStream.apply(this, buildProcesses)
-    .pipe(size({showFiles: true, title: '[Scripts]'}));
+  return browserify({
+      entries: entryFile,
+      debug: true,
+      paths: 'bower_components',
+      cache: {},
+      packageCache: {}
+    })
+    .bundle()
+    .pipe(source(fileName))
+    .pipe(gulp.dest(destPath))
+    .pipe(gulpif(isProduction, buildProdJs()));
 });
 
+//includes videojs v6
+gulp.task('build-bundle-script', function() {
+  var fileName = 'videojs.vast.vpaid.loader.js';
+  var entryFile = path.join('src/scripts', fileName);
+  var destPath  = path.join(devPath, 'scripts');
+
+  return browserify({
+      entries: entryFile,
+      debug: true,
+      paths: 'bower_components',
+      cache: {},
+      packageCache: {}
+    })
+    .bundle()
+    .pipe(source(fileName))
+    .pipe(gulp.dest(destPath))
+    .pipe(gulpif(isProduction, buildProdJs()));
+});
 
 function buildProdCss() {
   var cloneSink = clone.sink();
@@ -149,7 +154,6 @@ gulp.task('build-styles', function () {
 
 });
 
-
 gulp.task('build-assets', function () {
 
   var destPath  = path.join(devPath, 'scripts');
@@ -159,6 +163,5 @@ gulp.task('build-assets', function () {
     .pipe(gulp.dest(destPath))
     .pipe(gulpif(isProduction, gulp.dest(distPath)));
 });
-
 
 module.exports = new BuildTaskDoc('build', 'This task builds the plugin', 4);

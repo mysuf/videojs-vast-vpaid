@@ -1,6 +1,3 @@
----
-<% if(isDefault) { %> redirect_from: "index.html" <% } %>
----
 <!DOCTYPE html>
 <!--[if lte IE 9]><html class="lte-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 9]><!--> <html lang="en"> <!--<![endif]-->
@@ -44,7 +41,7 @@
     <h3 class="title main">videojs-vast-vpaid plugin </h3>
     <div class="container">
         <div class="row">
-            <h4>VideoJs <%=version%> Demo</h4>
+            <h4>VideoJs Vast/Vpaid Demo</h4>
             <div class="twelve columns">
                 <div class="vast-container">
                     <form id="vast-vpaid-form">
@@ -100,13 +97,6 @@
                 </div>
             </div>
             Some ad's will throw "VAST Error: on VASTClient.requestVastXML, HTTP request error with status '-1'", because that adServer is not setting the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">http access control header</a>, the reason why some video player's are able to play the ad's in firefox because they do the request by flash bypassing the browser
-        </div>
-        <br/>
-        <div class="row">
-            <h4> Other Versions </h4>
-            <% otherVersions.forEach( function ( ov ) { %>
-                <p><a href='index_<%=ov%>.html'>Video.Js <%=ov%> DEMO</a></p>
-            <% }); %>
         </div>
     </div>
 </body>

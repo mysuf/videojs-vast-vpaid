@@ -43,20 +43,13 @@ gulp.task('build-demo-styles', function () {
 gulp.task('build-demo-page', function () {
 
   var demoPage = path.join('demo/templates', 'index.html');
-  var buildProcesses = config.versions.map(function(version) {
 
-    return gulp.src(demoPage)
-      .pipe(template({
-        isDefault: config.versions.indexOf(version) === 0,
-        version: version,
-        otherVersions: config.versions.filter(function(v) { return v !== version;}),
-        demoAds: config.demoAds
-      }))
-      .pipe(rename('index_' + version + '.html'))
-      .pipe(gulp.dest(config.DEV));
-  });
-
-  return mergeStream.apply(this, buildProcesses);
+  return gulp.src(demoPage)
+    .pipe(template({
+      demoAds: config.demoAds
+    }))
+    .pipe(rename('index.html'))
+    .pipe(gulp.dest(config.DEV));
 });
 
 
@@ -86,12 +79,9 @@ gulp.task('build-demo-styles', function () {
 gulp.task('build-demo-videojs', function () {
   var assetsDistPath = path.join(config.DEV, '/demo');
 
-  var buildProcesses = config.versions.map(function(version) {
-    return gulp.src(config.versionsMap[version] + '**/*')
-      .pipe(gulp.dest(path.join(assetsDistPath, '/videojs_' + version + '/')));
-  });
+  return gulp.src(config.videojsSrc + '**/*')
+    .pipe(gulp.dest(path.join(assetsDistPath, '/videojs/')));
 
-  return mergeStream.apply(this, buildProcesses);
 });
 
 gulp.task('build-demo-config', function () {

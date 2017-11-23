@@ -5,7 +5,7 @@
     "Carlos Serrano <carlos.pastor@mailonline.co.uk>"
   ],
   "description": "VAST plugin to use with video.js",
-  "main": "bin",
+  "main": "src/scripts/videojs.vast.vpaid.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/MailOnline/videojs-vast-vpaid"
@@ -75,6 +75,7 @@
     "sinon-chai": "^2.8.0",
     "uglifyify": "^3.0.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "video.js": "^6.4.0"
   }
 }
