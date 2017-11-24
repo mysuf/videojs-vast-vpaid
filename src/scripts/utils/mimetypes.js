@@ -16,9 +16,5 @@ module.exports = {
     'text/livescript',
     'application/ecmascript',
     'application/x-ecmascript',
-  ],
-
-  flash: [
-    'application/x-shockwave-flash'
-  ],
+  ]
 };

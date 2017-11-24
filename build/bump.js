@@ -8,7 +8,7 @@ var config = require('./config');
 
 gulp.task('bump', function () {
 
-  return gulp.src(['./bower.json', './package.json'])
+  return gulp.src('./package.json')
     .pipe(bump({
       version: config.options.version
       }).on('error', gutil.log))
