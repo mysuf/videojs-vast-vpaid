@@ -97,7 +97,7 @@ gulp.task('build-plugin-script', function() {
   return browserify({
       entries: entryFile,
       debug: true,
-      paths: 'node_modules',
+      paths: ['./node_modules'],
       cache: {},
       packageCache: {}
     })
@@ -116,7 +116,7 @@ gulp.task('build-bundle-script', function() {
   return browserify({
       entries: entryFile,
       debug: true,
-      paths: 'node_modules',
+      paths: ['./node_modules'],
       cache: {},
       packageCache: {}
     })
