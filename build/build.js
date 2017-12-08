@@ -1,16 +1,17 @@
 'use strict';
 
-var babelify    = require('babelify');
+//var babelify    = require('babelify');
 var browserify  = require('browserify');
 var buffer      = require('vinyl-buffer');
 var clone       = require('gulp-clone');
+//var css2js      = require('gulp-css-to-js');
 var cssnano     = require('gulp-cssnano');
 var del         = require('del');
 var gulp        = require('gulp');
 var gulpif      = require('gulp-if');
 var jshint      = require('gulp-jshint');
 var lazypipe    = require('lazypipe');
-var mergeStream = require('merge-stream');
+//var mergeStream = require('merge-stream');
 var path        = require('path');
 var rename      = require('gulp-rename');
 var runSequence = require('run-sequence');
@@ -33,7 +34,8 @@ gulp.task('build', function (done) {
   runSequence(
     'clean',
     'lintjs',
-    'build-scripts',
+    'build-plugin-script',
+    'build-bundle-script',
     'build-styles',
     'build-assets',
     function (error) {
@@ -70,7 +72,7 @@ gulp.task('lintjs', function() {
 });
 
 
-function buildProdJs() {
+function minifyJs() {
   var cloneSink = clone.sink();
 
   var process = lazypipe()
@@ -88,8 +90,8 @@ function buildProdJs() {
 
 
 gulp.task('build-plugin-script', function() {
-  var fileName = 'videojs.vast.vpaid.loader.js';
-  var entryFile = path.join('src/scripts', fileName);
+  var fileName = 'videojs.vast.vpaid.js';
+  var entryFile = path.join('src/scripts/plugin', fileName);
   var destPath  = path.join(devPath, 'scripts');
 
   return browserify({
@@ -102,7 +104,7 @@ gulp.task('build-plugin-script', function() {
     .bundle()
     .pipe(source(fileName))
     .pipe(gulp.dest(destPath))
-    .pipe(gulpif(isProduction, buildProdJs()));
+    .pipe(gulpif(isProduction, minifyJs()));
 });
 
 //includes videojs v6
@@ -121,10 +123,10 @@ gulp.task('build-bundle-script', function() {
     .bundle()
     .pipe(source(fileName))
     .pipe(gulp.dest(destPath))
-    .pipe(gulpif(isProduction, buildProdJs()));
+    .pipe(gulpif(isProduction, minifyJs()));
 });
 
-function buildProdCss() {
+function minifyCss() {
   var cloneSink = clone.sink();
 
   var process = lazypipe()
@@ -149,7 +151,7 @@ gulp.task('build-styles', function () {
       .on('error', sass.logError))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(destPath))
-    .pipe(gulpif(isProduction, buildProdCss()))
+    .pipe(gulpif(isProduction, minifyCss()))
     .pipe(size({showFiles: true, title: '[Styles]'}));
 
 });

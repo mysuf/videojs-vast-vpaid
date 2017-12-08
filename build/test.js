@@ -12,25 +12,23 @@ var BuildTaskDoc = require('./BuildTaskDoc');
  */
 
 var testTasks = [];
-config.versions.forEach(function(version) {
 
-  var testTask = 'test-videojs_' + version;
+var testTask = 'test-videojs';
 
-  gulp.task(testTask, function (done) {
+gulp.task(testTask, function (done) {
 
-    var autoWatch = !!config.options['watch'];
+  var autoWatch = !!config.options['watch'];
 
-    new Server({
-      configFile: __dirname + '/../karma.conf.js',
-      files: config.testFiles(version),
-      autoWatch: autoWatch,
-      singleRun: !autoWatch
-    }, function (error) {
-      done(error);
-    }).start();
-  });
-  testTasks.push(testTask);
+  new Server({
+    configFile: __dirname + '/../karma.conf.js',
+    files: config.testFiles(),
+    autoWatch: autoWatch,
+    singleRun: !autoWatch
+  }, function (error) {
+    done(error);
+  }).start();
 });
+testTasks.push(testTask);
 
 gulp.task('test', function(done) {
 

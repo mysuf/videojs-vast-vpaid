@@ -2,7 +2,7 @@
 
 var browserify   = require('browserify');
 var gulp         = require('gulp');
-var mergeStream  = require('merge-stream');
+//var mergeStream  = require('merge-stream');
 var path         = require('path');
 var rename       = require('gulp-rename');
 var runSequence  = require('run-sequence');

@@ -2,7 +2,8 @@
   "name": "videojs-vast-vpaid",
   "version": "0.0.0",
   "authors": [
-    "Carlos Serrano <carlos.pastor@mailonline.co.uk>"
+    "Carlos Serrano <carlos.pastor@mailonline.co.uk>",
+    "Petr Schuchmann <petr.schuchmann@tiscalimedia.cz>"
   ],
   "description": "VAST plugin to use with video.js",
   "main": "src/scripts/videojs.vast.vpaid.js",
@@ -41,6 +42,7 @@
     "gulp-bump": "^1.0.0",
     "gulp-clone": "^1.0.0",
     "gulp-cssnano": "^2.1.0",
+    "gulp-css-to-js": "^0.0.2",
     "gulp-gh-pages": "^0.5.2",
     "gulp-git": "^1.2.4",
     "gulp-if": "^2.0.0",

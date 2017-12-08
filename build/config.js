@@ -17,7 +17,7 @@ var demoAds = [
 
 module.exports = {
 
-  videojsSrc = 'node_modules/video.js/dist/video.js';
+  videojsSrc: 'node_modules/video.js/dist/video.js',
 
   options: options,
   env: options.env,

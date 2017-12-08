@@ -5,7 +5,8 @@ var gulp = require('gulp');
 var BuildTaskDoc = require('./BuildTaskDoc');
 
 gulp.task('watch', function () {
-  gulp.watch('./src/**/*.js', ['build-scripts']);
+  gulp.watch('./src/**/*.js', ['build-plugin-script']);
+  gulp.watch('./src/**/*.js', ['build-bundle-script']);
   gulp.watch('./src/**/*.scss', ['build-styles']);
   gulp.watch('./demo/**/*.html', ['build-demo-page']);
   gulp.watch('./demo/**/*.js', ['build-demo-scripts']);

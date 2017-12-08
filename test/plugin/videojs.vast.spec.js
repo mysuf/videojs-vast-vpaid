@@ -12,11 +12,7 @@ var xml = require('utils/xml');
 
 var testUtils = require('../test-utils');
 
-var videoJsVersion = parseInt(videojs.VERSION.split('.')[0], 10);
-
-if(videoJsVersion === 5) {
-  require('videojs_6.vast.vpaid');
-}
+require('videojs.vast.vpaid');
 
 describe("videojs.vast plugin", function () {
   var testDiv, videoEl, player;
