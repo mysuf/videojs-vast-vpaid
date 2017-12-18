@@ -3,17 +3,13 @@
 //var babelify    = require('babelify');
 var browserify  = require('browserify');
 var buffer      = require('vinyl-buffer');
-var clone       = require('gulp-clone');
 var concat      = require('gulp-concat');
 var css2js      = require('gulp-css-to-js');
 var cssnano     = require('gulp-cssnano');
 var del         = require('del');
 var gulp        = require('gulp');
-var insert      = require('gulp-insert');
 var jshint      = require('gulp-jshint');
-var lazypipe    = require('lazypipe');
 var path        = require('path');
-var rename      = require('gulp-rename');
 var runSequence = require('run-sequence');
 var sass        = require('gulp-sass');
 var size        = require('gulp-size');
@@ -35,7 +31,6 @@ gulp.task('build', function (done) {
   runSequence(
     'clean',
     'lintjs',
-    'build-plugin',
     'build-bundle',
     function (error) {
       if (error) {
@@ -70,37 +65,7 @@ gulp.task('lintjs', function() {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-function minifyJs() {
-  var cloneSink = clone.sink();
-
-  var lazy = lazypipe()
-    .pipe(buffer)
-    .pipe(function() {return cloneSink;})
-    .pipe(sourcemaps.init, {loadMaps: true})
-    .pipe(uglify, {compress: false}) // compress needs to be false otherwise it mess the sourcemaps
-    .pipe(rename, {suffix: '.min'})
-    .pipe(sourcemaps.write, './')
-    .pipe(cloneSink.tap)
-    .pipe(gulp.dest, distPath);
-
-  return lazy();
-}
-
-function minifyCss() {
-  var cloneSink = clone.sink();
-
-  var lazy = lazypipe()
-    .pipe(function() {return cloneSink;})
-    .pipe(cssnano)
-    .pipe(rename, {suffix: '.min'})
-    .pipe(sourcemaps.write, './')
-    .pipe(cloneSink.tap)
-    .pipe(gulp.dest, distPath);
-
-  return lazy();
-}
-
-gulp.task('build-plugin', function () {
+gulp.task('build-vast-plugin', function () {
   var jsSrc = browserify({
       entries: 'src/scripts/plugin/videojs.vast.vpaid.js',
       debug: true,
@@ -116,44 +81,63 @@ gulp.task('build-plugin', function () {
     .pipe(sourcemaps.init())
     .pipe(sass()
       .on('error', sass.logError))
-    .pipe(sourcemaps.write())
+    .pipe(cssnano())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(distPath))
-    .pipe(minifyCss())
-    .pipe(insert.append('/*#sourceMappingURL=/css/videojs.vast.vpaid.css.map*/'))
+    .pipe(size({showFiles: true, title: '[VideoJS Vast CSS Map]'}))
     .pipe(css2js());
 
   return mergeStream(cssJs, jsSrc)
+    .pipe(sourcemaps.init())
     .pipe(concat('videojs.vast.vpaid.js'))
+    .pipe(uglify({compress: false})) // compress needs to be false otherwise it mess the sourcemaps
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(distPath))
-    .pipe(minifyJs())
-    .pipe(size({showFiles: true, title: '[Plugin]'}));
+    .pipe(size({showFiles: true, title: '[VideoJS Vast Plugin]'}));
 
 });
 
 //includes last version of videojs
-gulp.task('build-bundle', function() {
-  var videojsPath = 'node_modules/video.js/dist/';
-  var videojsPathJS = path.join(videojsPath, 'video.js');
-  var videojsPathCss = path.join(videojsPath, 'video-js.css');
+gulp.task('build-core-videojs', function() {
+  var videojsStylePath = 'node_modules/video.js/dist/video-js.css';
 
-  var jsSrc = gulp.src(videojsPathJS);
+  var jsSrc = browserify({
+      entries: 'src/scripts/videojs.vast.vpaid.loader.js',
+      debug: true,
+      paths: ['./node_modules'],
+      cache: {},
+      packageCache: {}
+    })
+    .bundle()
+    .pipe(source('video.js'))
+    .pipe(buffer());
 
-  var cssJs = gulp.src([videojsPathCss, distPath + 'videojs.vast.vpaid.css'])
-    .pipe(concat('videojs.bundle.css'))
+  var cssJs = gulp.src(videojsStylePath)
     .pipe(sourcemaps.init())
+    .pipe(cssnano())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(distPath))
-    .pipe(sourcemaps.write())
-    .pipe(minifyCss())
-    .pipe(insert.append('/*#sourceMappingURL=/css/videojs.bundle.css.map*/'))
+    .pipe(size({showFiles: true, title: '[VideoJS CSS Map]'}))
     .pipe(css2js());
 
-  var vpaidSrc = gulp.src(path.join(distPath, 'videojs.vast.vpaid.js'));
-
-  return mergeStream(cssJs, jsSrc, vpaidSrc)
+  return mergeStream(cssJs, jsSrc)
     .pipe(concat('video.js'))
     .pipe(gulp.dest(distPath))
-    .pipe(minifyJs())
-    .pipe(size({showFiles: true, title: '[Bundle]'}));
+    .pipe(size({showFiles: true, title: '[VideoJS Core]'}));
+});
+
+//includes last version of videojs
+gulp.task('build-bundle', ['build-core-videojs', 'build-vast-plugin'], function() {
+  var baseSrc = path.join(distPath, 'video.js');
+  var pluginSrc = path.join(distPath, 'videojs.vast.vpaid.js');
+
+  return gulp.src([baseSrc, pluginSrc])
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(concat('video.js'))
+    .pipe(uglify({compress: false})) // compress needs to be false otherwise it mess the sourcemaps
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(distPath))
+    .pipe(size({showFiles: true, title: '[VideoJS Bundle]'}));
 });
 
 module.exports = new BuildTaskDoc('build', 'This task builds the plugin', 4);
