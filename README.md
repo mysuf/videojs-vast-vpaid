@@ -14,7 +14,7 @@ Supports VAST and VPAID [HTML5](https://github.com/MailOnline/VPAIDHTML5Client) 
 ## Integration with video.js v4+
 To integrate the plugin with videoJs you need to:
 
-**1- Add [all files from MailOnline/videojs-vast-vpaid/RELEASE/bin](https://github.com/MailOnline/videojs-vast-vpaid/tree/RELEASE/bin) to some path in your server**
+**1- Add [all files from MailOnline/videojs-vast-vpaid/RELEASE/dist](https://github.com/MailOnline/videojs-vast-vpaid/tree/RELEASE/bin) to some path in your server**
 
 **2- If you don't have videoJs, add it's scripts and stylesheet to your page**
 ```html
@@ -84,7 +84,7 @@ You can also configure the vast plugin using the data-setup attribute
 ## Migration from videojs-vast-vpaid 0.1 to 1.0
 
 if you will still use videojs version 4 you need to
-* download the new bin folder
+* download the new dist folder
 * replace, in your pages,  ```videojs-vast-vpaid.css``` with  ```videojs.vast.vpaid.css```
  *( or ```videojs-vast-vpaid.min.css``` with ```videojs.vast.vpaid.min.css```  if you were using the minified version)*
 

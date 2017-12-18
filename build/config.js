@@ -25,8 +25,9 @@ module.exports = {
     remoteUrl: process.env.GH_TOKEN ? 'https://'+process.env.GH_TOKEN+'@github.com/mysuf/videojs-vast-vpaid' : 'origin'
   },
 
-  DIST: path.normalize('__dirname/../bin'),
+  DIST: path.normalize('__dirname/../dist'),
   DEV: path.normalize('__dirname/../dev'),
+  TMP: path.normalize('__dirname/../tmp'),
 
   vendor: [
 
