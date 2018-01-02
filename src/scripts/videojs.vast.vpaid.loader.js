@@ -1,6 +1,7 @@
 'use strict';
 
-require('video.js');
+// require video.js to be loaded
+var videojs = require('video.js');
 
 // including version fallbacks
 var vjsComponent = videojs.Component || videojs.getComponent('Component');
@@ -17,5 +18,9 @@ if (videojs.registerComponent) {
 	videojs.BlackPoster = videojs.Component.extend(BlackPoster);
 }
 
+var videoJsVAST = require('./plugin/videojs.vast.vpaid');
+
 var registerPlugin = videojs.registerPlugin || videojs.plugin;
-registerPlugin('vastClient', require('./plugin/videojs.vast.vpaid'));
+registerPlugin('vastClient', videoJsVAST);
+
+window.videojs = videojs;
