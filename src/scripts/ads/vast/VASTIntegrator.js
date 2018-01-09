@@ -368,7 +368,8 @@ VASTIntegrator.prototype._playSelectedAd = function playSelectedAd(source, respo
 
     logger.debug ("<VASTIntegrator._playSelectedAd/playAd> calling player.play()...");
 
-    player.play();
+    // compatibility fallback before v6
+    typeof player.ready === 'function' ? player.ready(player.play) : player.play();
   }
 };
 

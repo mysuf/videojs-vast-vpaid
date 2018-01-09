@@ -91,7 +91,7 @@ playerUtils.restorePlayerSnapshot = function restorePlayerSnapshot(player, snaps
     restoreTracks();
 
     if (snapshot.playing) {
-      player.play();
+      typeof player.ready === 'function' ? player.ready(player.play) : player.play();
     }
   }
 
@@ -121,6 +121,7 @@ playerUtils.restorePlayerSnapshot = function restorePlayerSnapshot(player, snaps
     if (player.src()) {
       return player.src() !== snapshot.src;
     }
+     console.log(player.currentSrc(), snapshot.src);
     // the player was configured through source element children
     return player.currentSrc() !== snapshot.src;
   }
@@ -148,14 +149,14 @@ playerUtils.restorePlayerSnapshot = function restorePlayerSnapshot(player, snaps
         if(player.currentTime() !== snapshot.currentTime) {
           if (snapshot.playing) { // if needed restore playing status after seek completes
             player.one('seeked', function() {
-              player.play();
+              typeof player.ready === 'function' ? player.ready(player.play) : player.play();
             });
           }
           player.currentTime(snapshot.currentTime);
 
         } else if (snapshot.playing) {
           // if needed and no seek has been performed, restore playing status immediately
-          player.play();
+          typeof player.ready === 'function' ? player.ready(player.play) : player.play();
         }
 
       } catch (e) {
